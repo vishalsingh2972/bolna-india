@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { FormProvider } from "@/components/providers/FormProvider";
 
 export const metadata: Metadata = {
   title: "Bolna India",
@@ -14,11 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <FormProvider>
-          {children}
-        </FormProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
