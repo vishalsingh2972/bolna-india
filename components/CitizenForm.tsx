@@ -42,6 +42,30 @@ export default function CitizenForm() {
               className="border-white/10 bg-slate-900/60 text-white"
             />
           </div>
+
+          <div>
+            <label className="mb-2 block text-sm text-slate-300">
+              District
+            </label>
+            <Input
+              value={form.district}
+              readOnly
+              placeholder="Will appear automatically"
+              className="border-white/10 bg-slate-900/60 text-white"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm text-slate-300">
+              New Address
+            </label>
+            <Input
+              value={form.new_address}
+              readOnly
+              placeholder="Will appear automatically"
+              className="border-white/10 bg-slate-900/60 text-white"
+            />
+          </div>
         </div>
       </div>
     </Card>

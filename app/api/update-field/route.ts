@@ -6,9 +6,15 @@ export async function POST(req: Request) {
 
   const { field, value } = body;
 
+  const allowedFields = [
+    "full_name",
+    "phone_number",
+    "district",
+    "new_address",
+  ] as const;
+
   if (
-    (field !== "full_name" &&
-      field !== "phone_number") ||
+    !allowedFields.includes(field) ||
     typeof value !== "string"
   ) {
     return NextResponse.json(

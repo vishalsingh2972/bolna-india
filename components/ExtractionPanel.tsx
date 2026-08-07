@@ -8,18 +8,20 @@ export default function ExtractionPanel() {
   const { form } = useFormData();
 
   const confidence =
-    form.full_name || form.phone_number ? 0.98 : 0;
+    form.full_name ||
+    form.phone_number ||
+    form.district ||
+    form.new_address
+      ? 0.98
+      : 0.0;
 
   return (
     <Card className="border-white/10 bg-white/5 backdrop-blur">
       <div className="p-6">
         <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-xl font-semibold text-white">
-              Live Extraction
-            </h2>
-          </div>
-
+          <h2 className="text-xl font-semibold text-white">
+            Live Extraction
+          </h2>
           <Badge
             variant="outline"
             className="border-emerald-400/30 text-emerald-300"
@@ -37,27 +39,41 @@ export default function ExtractionPanel() {
           </div>
 
           <div className="rounded-lg border border-white/10 bg-slate-950/40 p-3">
-            <p className="text-xs text-slate-500">
-              Mobile Number
-            </p>
+            <p className="text-xs text-slate-500">Mobile Number</p>
             <p className="text-slate-200">
               {form.phone_number || "Waiting for voice input..."}
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-white/10 bg-slate-950/40 p-3">
+            <p className="text-xs text-slate-500">District</p>
+            <p className="text-slate-200">
+              {form.district || "Waiting for voice input..."}
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-white/10 bg-slate-950/40 p-3">
+            <p className="text-xs text-slate-500">New Address</p>
+            <p className="text-slate-200">
+              {form.new_address || "Waiting for voice input..."}
             </p>
           </div>
         </div>
 
         <div className="mt-6 rounded-xl border border-white/10 bg-slate-950/60 p-4 font-mono text-xs text-emerald-300">
           <pre>
-            {JSON.stringify(
-              {
-                language: "te",
-                confidence,
-                full_name: form.full_name || null,
-                phone_number: form.phone_number || null,
-              },
-              null,
-              2
-            )}
+{JSON.stringify(
+  {
+    language: "te",
+    confidence,
+    full_name: form.full_name || null,
+    phone_number: form.phone_number || null,
+    district: form.district || null,
+    new_address: form.new_address || null,
+  },
+  null,
+  2
+)}
           </pre>
         </div>
       </div>

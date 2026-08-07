@@ -11,6 +11,8 @@ import {
 export interface FormData {
   full_name: string;
   phone_number: string;
+  district: string;
+  new_address: string;
 }
 
 interface FormContextType {
@@ -27,6 +29,8 @@ export function FormProvider({
   const [form, setForm] = useState<FormData>({
     full_name: "",
     phone_number: "",
+    district: "",
+    new_address: "",
   });
 
   useEffect(() => {
@@ -39,7 +43,6 @@ export function FormProvider({
         if (!res.ok) return;
 
         const data = await res.json();
-
         setForm(data);
       } catch (error) {
         console.error("Polling error:", error);
