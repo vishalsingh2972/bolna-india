@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
-import LogoWithTitle from "../logoWithTitle.svg";
-import BolnaLogo from "../bolna-logo.svg";
+import LogoWithTitle from "../public/logoWithTitle.svg";
+import BolnaLogo from "../public/bolna-logo.svg";
 
 export default function Header() {
   return (
