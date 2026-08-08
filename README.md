@@ -105,137 +105,32 @@ The same flow continues for:
 
 # 🏗️ System Architecture
 
-```text
-                   ┌──────────────────────┐
-                   │   Citizen (Browser)  │
-                   │  Speaks in Telugu    │
-                   └──────────┬───────────┘
-                              │
-                              ▼
-                   ┌──────────────────────┐
-                   │   Next.js Frontend   │
-                   │  VoicePanel UI       │
-                   └──────────┬───────────┘
-                              │
-                              ▼
-                   ┌──────────────────────┐
-                   │  Bolna Web Call SDK  │
-                   │ Browser SIP Session  │
-                   └──────────┬───────────┘
-                              │
-                              ▼
-                   ┌──────────────────────┐
-                   │     Bolna Agent      │
-                   │ Telugu AI Assistant  │
-                   └──────────┬───────────┘
-                              │
-                 Confirmed field value
-                              │
-                              ▼
-                   ┌──────────────────────┐
-                   │ update_form_field    │
-                   │   Custom Function    │
-                   └──────────┬───────────┘
-                              │
-                              ▼
-               POST /api/update-field (ngrok)
-                              │
-                              ▼
-                   ┌──────────────────────┐
-                   │ Next.js API Route    │
-                   │ update-field         │
-                   └──────────┬───────────┘
-                              │
-                              ▼
-                   ┌──────────────────────┐
-                   │ In-memory Form Store │
-                   │ lib/form-store.ts    │
-                   └──────────┬───────────┘
-                              │
-                              ▼
-                   ┌──────────────────────┐
-                   │ FormProvider Polling │
-                   │ /api/form-state      │
-                   └──────────┬───────────┘
-                              │
-                              ▼
-                   ┌──────────────────────┐
-                   │ CitizenForm UI       │
-                   │ Updates Instantly    │
-                   └──────────────────────┘
+```mermaid
+flowchart TD
+    A(["🎙️ Citizen (Browser)<br/>Speaks in Telugu"]):::input
+
+    A --> B["🌐 Next.js Frontend<br/>VoicePanel UI"]
+    B --> C["📞 Bolna Web Call SDK<br/>Browser SIP Session"]
+    C --> D["🤖 Bolna Voice Agent<br/>Telugu AI Assistant"]
+
+    D -->|"🗣️ Confirmed Field Value"| E["⚙️ update_form_field<br/>Bolna Custom Function"]
+
+    E --> F["🔗 ngrok Tunnel<br/>Public Webhook Endpoint"]
+    F --> G["🚀 Next.js API Route<br/>/api/update-field"]
+    G --> H["💾 In-Memory Form Store<br/>lib/form-store.ts"]
+
+    H --> I["🔄 FormProvider Polling<br/>/api/form-state"]
+    I --> J(["📝 Government Application Form<br/>CitizenForm UI Updates Instantly"]):::output
+
+    classDef input fill:#1a1a2e,stroke:#e94560,stroke-width:2px,color:#ffffff
+    classDef default fill:#16213e,stroke:#0f3460,stroke-width:1.5px,color:#e0e0e0
+    classDef output fill:#0d3b2e,stroke:#00b894,stroke-width:2px,color:#ffffff
+
+    class A input
+    class J output
 ```
 
 ---
-
-# 🔄 Complete Data Flow
-
-```text
-User clicks Start Voice Session
-              │
-              ▼
-Bolna SIP connection established
-              │
-              ▼
-Agent asks: "What is your full name?"
-              │
-              ▼
-User: "రవి కుమార్"
-              │
-              ▼
-Agent confirms name
-              │
-              ▼
-Bolna calls update_form_field
-              │
-              ▼
-POST /api/update-field
-              │
-              ▼
-form-store.ts updated
-              │
-              ▼
-GET /api/form-state
-              │
-              ▼
-React state updated
-              │
-              ▼
-Full Name appears in the application form
-              │
-              ▼
-Repeat for Phone Number
-              │
-              ▼
-Repeat for District
-              │
-              ▼
-Repeat for New Address
-              │
-              ▼
-All four fields completed
-              │
-              ▼
-Application form fully populated
-              │
-              ▼
-Conversation ends automatically
-```
-
----
-
-# 📋 Fields Collected
-
-The prototype currently captures four fields commonly required in Indian address update workflows.
-
-| Field                   | Voice Collected | Confirmed | Auto-filled |
-| ----------------------- | --------------- | --------- | ----------- |
-| Full Name               | ✅               | ✅         | ✅           |
-| Mobile Number           | ✅               | ✅         | ✅           |
-| District                | ✅               | ✅         | ✅           |
-| New Residential Address | ✅               | ✅         | ✅           |
-
----
-
 # 🧱 Tech Stack
 
 ### Frontend
@@ -263,8 +158,6 @@ The prototype currently captures four fields commonly required in Indian address
 * ngrok (public webhook exposure)
 
 ---
-
-# 📁 Project Structure
 
 ```text
 app/
