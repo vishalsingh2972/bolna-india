@@ -1,109 +1,54 @@
 # 🏛️ Bolna India – Voice-First Government Form Filling (Telugu)
 
-Bolna India is a voice-first prototype that demonstrates how Indian government forms can be filled entirely through a natural Telugu conversation.
+Bolna India is a voice-first prototype that demonstrates how Indian government forms can be completed entirely through a natural Telugu conversation.
 
-Instead of typing into a form, a citizen simply speaks in Telugu. The AI assistant collects, confirms, and submits the information in real time, and the web application updates automatically as the conversation happens.
-
-This prototype showcases how **speech can become the primary interface for public service delivery**, especially for citizens who are not comfortable with English, typing, or navigating government portals.
+Instead of typing into a form, a citizen simply speaks in Telugu. The AI assistant collects, confirms, and submits the information in real time, while the application updates automatically on screen. The experience is inspired by an Aadhaar-style address update workflow and showcases how **speech can become the primary interface for public service delivery**.
 
 ---
 
 ## 🇮🇳 The Problem
 
-Millions of Indian citizens struggle with digital government forms because of:
+Millions of citizens struggle with digital government forms because of:
 
 * Language barriers
 * Low digital literacy
-* Complex online portals
+* Complex government portals
 * Mobile typing difficulties
-* Accessibility limitations for elderly and rural users
+* Accessibility challenges for elderly and rural users
 
-A simple address update can require multiple screens, text input fields, and careful navigation.
+Even a simple address update often requires navigating multiple screens and manually entering several fields.
 
 ---
 
 ## 💡 The Solution
 
-Bolna India replaces manual form filling with a natural voice conversation.
+Bolna India replaces manual form filling with a natural Telugu conversation.
 
-The citizen simply speaks:
+The assistant collects four common address-update fields:
 
 * Full Name
 * Mobile Number
 * District
 * New Residential Address
 
-The AI assistant confirms each field, and once confirmed, the information is immediately written into the application form on the screen.
-
-The result is a **live government-style application form populated through speech alone**.
+Each value is repeated for confirmation, and once confirmed, it is **instantly written into the government application form**. The result is a **live, voice-driven government workflow**.
 
 ---
 
 ## ✨ What the Prototype Demonstrates
 
 * 🎙️ Telugu voice conversation
-* 🧠 AI-powered field extraction
-* ✅ Confirmation before submission
-* 🔄 Real-time UI updates
+* 🤖 AI-powered field extraction
+* ✅ Field-by-field confirmation
+* 🔄 Real-time form updates
 * 📋 Government-style address update application
 * ☎️ Browser-based voice calling
 * 🌐 Live webhook integration using ngrok
-* ⚡ End-to-end speech-to-form workflow
+* ⚡ End-to-end speech-to-form automation
 
 ---
 
-## 🎥 Demo Flow
-
-1. User clicks **Start Voice Session**
-2. Browser connects to a **Bolna voice agent**
-3. Agent speaks in Telugu
-4. Agent asks for one field at a time
-5. User responds naturally
-6. Agent repeats the value for confirmation
-7. After confirmation, Bolna triggers a webhook
-8. Next.js updates the form state
-9. UI reflects the new value instantly
-10. Process repeats for all four fields
-
----
-
-# 🧠 Voice Conversation
-
-### Agent
-
-> నమస్తే, నేను అనికను. మీరు డెమో కోసం సిద్ధంగా ఉన్నారా?
-
-### User
-
-> అవును
-
-### Agent
-
-> ముందుగా, దయచేసి మీ పూర్తి పేరు చెప్పండి.
-
-### User
-
-> రవి కుమార్
-
-### Agent
-
-> మీరు చెప్పిన పేరు రవి కుమార్. ఇది సరైందా?
-
-### User
-
-> అవును
-
-Immediately after confirmation, the form updates on screen.
-
-The same flow continues for:
-
-* Mobile Number
-* District
-* New Address
-
----
-
-# 🏗️ System Architecture
+## 🏗️ System Architecture
 
 ```mermaid
 flowchart TD
@@ -131,7 +76,23 @@ flowchart TD
 ```
 
 ---
-# 🧱 Tech Stack
+
+## 🔄 End-to-End Flow
+
+1. User clicks **Start Voice Session**
+2. Browser connects to a **Bolna voice agent**
+3. Agent speaks in Telugu and asks for one field at a time
+4. User responds naturally
+5. Agent repeats the value for confirmation
+6. Bolna invokes **update_form_field**
+7. A webhook calls **/api/update-field**
+8. Next.js updates the application state
+9. The government form is updated instantly on screen
+10. The process repeats until all four fields are completed
+
+---
+
+## 🧠 Tech Stack
 
 ### Frontend
 
@@ -141,11 +102,13 @@ flowchart TD
 * Tailwind CSS
 * shadcn/ui
 
-### Voice Infrastructure
+### Voice & AI
 
 * Bolna Web Call SDK
 * SIP over WebSocket
-* Browser microphone access
+* Telugu conversational agent
+* Function calling
+* Real-time webhooks
 
 ### Backend
 
@@ -159,31 +122,7 @@ flowchart TD
 
 ---
 
-```text
-app/
-├── api/
-│   ├── bolna-session/
-│   ├── form-state/
-│   └── update-field/
-├── layout.tsx
-└── page.tsx
-
-components/
-├── CitizenForm.tsx
-├── VoicePanel.tsx
-├── Header.tsx
-└── providers/
-    └── FormProvider.tsx
-
-lib/
-├── form-store.ts
-├── useBolnaCall.ts
-└── utils.ts
-```
-
----
-
-# ⚙️ Bolna Integration
+## ⚙️ Bolna Integration
 
 The Bolna agent is configured with a custom function:
 
@@ -195,43 +134,34 @@ The Bolna agent is configured with a custom function:
 }
 ```
 
-After each confirmation, Bolna sends a POST request to:
+After each confirmation, Bolna sends a **POST** request to:
 
 ```text
 /api/update-field
 ```
 
-which immediately updates the application state.
+which immediately updates the application state and synchronizes the UI.
 
 ---
 
-# 🧪 Tested End-to-End
+## 🧪 Tested End-to-End
 
 The prototype has been successfully tested with a complete Telugu conversation.
 
-### Example
-
 ```text
-Full Name:
-రవి కుమార్
-
-Mobile Number:
-6303366896
-
-District:
-ఈస్ట్ గోదావరి
-
-New Address:
-12-3-45, గాంధీ స్ట్రీట్, అమలాపురం
+Full Name:        రవి కుమార్
+Mobile Number:    6303366896
+District:         ఈస్ట్ గోదావరి
+New Address:      12-3-45, గాంధీ స్ట్రీట్, అమలాపురం
 ```
 
-All four values were extracted, confirmed, transmitted through Bolna webhooks, and populated into the application form in real time.
+All four values were extracted, confirmed, transmitted through Bolna webhooks, and populated into the government application form in real time.
 
 ---
 
-# 🎯 Why This Matters
+## 🎯 Why This Matters
 
-This is not merely a speech-to-text demo.
+This is not just a speech-to-text demo.
 
 It demonstrates a complete **voice-native government workflow**:
 
@@ -243,35 +173,32 @@ The same architecture can power:
 * Ration card applications
 * Pension forms
 * PM-Kisan registration
-* Voter information updates
+* Voter ID corrections
 * Municipal service requests
 * Rural citizen service centers
 
 ---
 
-# 🚀 Future Improvements
+## 🚀 Future Improvements
 
 * PDF generation
 * Official Aadhaar-style UI
 * PIN code validation
-* District lookup
 * Address normalization
-* Multi-language support (Hindi, Tamil, Kannada, Bengali)
+* Multilingual support (Hindi, Tamil, Kannada, Bengali)
 * Document upload assistance
-* OTP verification flow
-* Integration with real government APIs
+* OTP verification
+* Integration with government APIs
 * WhatsApp voice interface
 * Persistent user sessions
-* Voice-based form correction
-* Digital signature support
 
 ---
 
-# ❤️ Built for Accessible Public Services
+## ❤️ Built for Accessible Public Services
 
 Bolna India explores a simple idea:
 
-> Government forms should be filled through conversation, not complexity.
+> **Government forms should be filled through conversation, not complexity.**
 
 One Telugu conversation. Four confirmed fields. A completed government application.
 
